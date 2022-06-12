@@ -1,0 +1,299 @@
+:root {
+    --dark-body: #4d4c5a;
+    --dark-main: #141529;
+    --dark-second: #79788c;
+    --dark-hover: #323048;
+    --dark-text: #f8fbff;
+    --light-body: #f3f8fe;
+    --light-main: #fdfdfd;
+    --light-second: #c3c2c8;
+    --light-hover: #edf0f5;
+    --light-text: #151426;
+    --blue: #0000ff;
+    --white: #fff;
+    --shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    --font-family: cursive;
+}
+
+.dark {
+    --bg-body: var(--dark-body);
+    --bg-main: var(--dark-main);
+    --bg-second: var(--dark-second);
+    --color-hover: var(--dark-hover);
+    --color-txt: var(--dark-text);
+}
+
+.light {
+    --bg-body: var(--light-body);
+    --bg-main: var(--light-main);
+    --bg-second: var(--light-second);
+    --color-hover: var(--light-hover);
+    --color-txt: var(--light-text);
+}
+
+.input__date {
+    top: 52px;
+    left: 102px;
+    height: max-content;
+    width: max-content;
+    background-color: #fdfdfd;
+    border-radius: 30px;
+    padding: 20px;
+    overflow: hidden;
+    position: absolute;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    /* transform: scale(1.25); */
+}
+
+
+/* .light .calendar {
+    box-shadow: var(--shadow);
+} */
+
+.input__date-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 18px;
+    font-weight: 600;
+    color: #151426;
+}
+
+.input__date-body {
+    padding: 0px;
+}
+
+.input__date-week-day {
+    height: 44px;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    font-weight: 600;
+}
+
+.input__date-week-day div {
+    display: grid;
+    place-items: center;
+    color: #c3c2c8;
+}
+
+.input__date-day {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px;
+    color: #151426;
+}
+
+.input__date-day div {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    position: relative;
+    cursor: pointer;
+    animation: to-top 1s forwards;
+    /* border-radius: 50%; */
+}
+
+.input__date-day div:hover {
+    background-color: #c3c2c8;
+    border-radius: 50%;
+}
+
+.input__date-day div span {
+    position: absolute;
+}
+
+.input__date-day div:hover span {
+    transition: width 0.2s ease-in-out, height 0.2s ease-in-out;
+}
+
+.input__date-day div span:nth-child(1),
+.input__date-day div span:nth-child(3) {
+    width: 2px;
+    height: 0;
+    background-color: #151426;
+}
+
+.input__date-day div:hover span:nth-child(1),
+.input__date-day div:hover span:nth-child(3) {
+    height: 100%;
+}
+
+.input__date-day div span:nth-child(1) {
+    bottom: 0;
+    left: 0;
+}
+
+.input__date-day div span:nth-child(3) {
+    top: 0;
+    right: 0;
+}
+
+.input__date-day div span:nth-child(2),
+.input__date-day div span:nth-child(4) {
+    width: 0;
+    height: 2px;
+    background-color: #151426;
+}
+
+.input__date-day div:hover span:nth-child(2),
+.input__date-day div:hover span:nth-child(4) {
+    width: 100%;
+}
+
+.input__date-day div span:nth-child(2) {
+    top: 0;
+    left: 0;
+}
+
+.input__date-day div span:nth-child(4) {
+    bottom: 0;
+    right: 0;
+}
+
+.input__date-day div:hover span:nth-child(2) {
+    transition-delay: 0.2s;
+}
+
+.input__date-day div:hover span:nth-child(3) {
+    transition-delay: 0.4s;
+}
+
+.input__date-day div:hover span:nth-child(4) {
+    transition-delay: 0.6s;
+}
+
+.input__date-day div.curr-date,
+.input__date-day div.curr-date:hover {
+    background-color: var(--blue);
+    color: var(--white);
+    border-radius: 50%;
+}
+
+.input__date-day div.curr-date span {
+    display: none;
+}
+
+.input__date-month {
+    padding: 5px 10px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.input__date-month:hover {
+    background-color: #edf0f5;
+}
+
+.input__date-year {
+    display: flex;
+    align-items: center;
+}
+
+.input__date-year--change {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    margin: 0 10px;
+    cursor: pointer;
+}
+
+.input__date-year--change:hover {
+    background-color: #edf0f5;
+}
+
+.input__date-footer {
+    padding: 10px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.toggle {
+    display: flex;
+}
+
+.toggle span {
+    margin-right: 10px;
+    color: var(--color-txt);
+}
+
+.dark-mode-switch {
+    position: relative;
+    width: 48px;
+    height: 25px;
+    border-radius: 14px;
+    background-color: #c3c2c8;
+    cursor: pointer;
+}
+
+.dark-mode-switch-ident {
+    width: 21px;
+    height: 21px;
+    border-radius: 50%;
+    background-color: #141529;
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    transition: left 0.2s ease-in-out;
+}
+
+.dark .dark-mode-switch .dark-mode-switch-ident {
+    top: 2px;
+    left: calc(2px + 50%);
+}
+
+.input__date-list-month {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: #141529;
+    padding: 20px;
+    grid-template-columns: repeat(3, auto);
+    gap: 5px;
+    display: grid;
+    transform: scale(1.5);
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.input__date-list-month.show {
+    transform: scale(1);
+    visibility: visible;
+    pointer-events: visible;
+    transition: all 0.2s ease-in-out;
+}
+
+.input__date-list-month>div {
+    display: grid;
+    place-items: center;
+}
+
+.input__date-list-month>div>div {
+    width: 100%;
+    padding: 5px 20px;
+    border-radius: 10px;
+    text-align: center;
+    cursor: pointer;
+    color: var(--color-txt);
+}
+
+.input__date-list-month>div>div:hover {
+    background-color: #edf0f5;
+}
+
+@keyframes to-top {
+    0% {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
