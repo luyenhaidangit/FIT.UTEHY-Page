@@ -8,7 +8,5 @@ $(document).ready(function() {
             $(this).addClass("active");
             $(this).next().slideDown(500);
         }
-
-
     });
 });
