@@ -290,11 +290,8 @@
 .activiti {
     padding: 28px 5%;
     background: #757F9A;
-    /* fallback for old browsers */
     background: -webkit-linear-gradient(to bottom, #D7DDE8, #757F9A);
-    /* Chrome 10-25, Safari 5.1-6 */
     background: linear-gradient(to bottom, #D7DDE8, #757F9A);
-    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
     border-radius: 6px;
 }
 
@@ -488,14 +485,6 @@
 }
 
 
-/* .introduct-gallery-slider-list__item.slick--left {
-    transform: translateX(-110%);
-}
-.introduct-gallery-slider-list__item.slick--right {
-    transform: translateX(110%);
-} */
-
-
 /* #endregion */
 
 
@@ -683,9 +672,6 @@
     width: 32%;
     padding: 0;
 }
-
-
-/* .training__tab-btn */
 
 .training__info-item {
     display: flex;
@@ -912,7 +898,8 @@
 }
 
 .admission {
-    background: url("/assets/image/background/admission2.jpg");
+    /* background: url("/assets/image/background/admission2.jpg"); */
+    background: url("/FIT.UTEHY/assets/image/background/admission2.jpg");
     background-position: center;
     background-size: cover;
     height: 640px;
