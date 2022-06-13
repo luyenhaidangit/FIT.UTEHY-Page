@@ -89,7 +89,7 @@ $(document).ready(function() {
                     $(".manager__modal-alert__item.alert--danger__case02").addClass("active open");
                     $(".form__input-andress").addClass("form__input--error");
                     $(".form__input-andress").focusout(function() {
-                        if (validateForm()[1] !== 1) {
+                        if (validateForm()[2] !== 2) {
                             $(".form__input-andress").removeClass("form__input--error");
                             $(".manager__modal-alert__item.alert--danger__case02").addClass("close");
                             setTimeout(function() {
@@ -103,7 +103,7 @@ $(document).ready(function() {
                     $(".manager__modal-alert__item.alert--danger__case03").addClass("active open");
                     $(".form__input-phone").addClass("form__input--error");
                     $(".form__input-phone").focusout(function() {
-                        if (validateForm()[1] !== 1) {
+                        if (validateForm()[3] !== 3) {
                             $(".form__input-phone").removeClass("form__input--error");
                             $(".manager__modal-alert__item.alert--danger__case03").addClass("close");
                             setTimeout(function() {
@@ -121,7 +121,6 @@ $(document).ready(function() {
 function resetModal() {
     $(".manager__modal-alert__item").removeClass("active open");
     $(".form__input-name").removeClass("form__input--error");
-    $(".form__input-date").removeClass("form__input--error");
     $(".form__input-date").removeClass("form__input--error");
     $(".form__input-andress").removeClass("form__input--error");
     $(".form__input-phone").removeClass("form__input--error");
@@ -219,6 +218,7 @@ function loadModal(index) {
 
 //Mở modal sửa
 function editObj(index) {
+    resetModal();
     $(".get-index").val(index);
     $(".manager__modal").addClass("active");
     $(".manager__modal-content").addClass("scale-up-center");
@@ -368,6 +368,7 @@ function displayObj(index) {
     loadModal(index);
 }
 
+//Định dạng lại ngày sinh
 function formatBirth(birth) {
     let arrBirth = birth.split('-');
     return arrBirth[2] + "-" + arrBirth[1] + "-" + arrBirth[0];
