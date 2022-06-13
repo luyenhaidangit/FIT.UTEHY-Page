@@ -1,10 +1,4 @@
 $(document).ready(function() {
-    renderClass();
-
-    renderSelectTraining();
-
-    renderSelectGenera();
-
     let modal = $(".manager__modal");
     let modalContent = $(".manager__modal-content");
     let alert = $(".manager__alert");
@@ -12,10 +6,17 @@ $(document).ready(function() {
     let addBtn = $(".add__btn");
     let closeBtn = $(".manager__modal-close");
     let submitBtn = $(".btn--submit");
+    renderClass();
+
+    renderSelectTraining();
+
+    renderSelectGenera();
+
     tooltip();
 
     selectInput();
 
+    //Bật modal thêm
     addBtn.click(function() {
         resetModal();
         $(".manager__modal-title > h5").html("Nhập thông tin lớp học");
@@ -26,6 +27,7 @@ $(document).ready(function() {
         $(".form__input-id").attr("placeholder", generateID());
     })
 
+    //Đóng modal
     closeBtn.click(function() {
         modalContent.removeClass("scale-up-center").addClass("scale-down-center");
         setTimeout(function() {
@@ -40,6 +42,7 @@ $(document).ready(function() {
         }, 400);
     })
 
+    //Đóng alert
     let skipBtn = $(".btn__skip");
     skipBtn.click(function() {
         alertContent.removeClass("scale-up-center").addClass("scale-down-center");
@@ -49,6 +52,7 @@ $(document).ready(function() {
         }, 400);
     })
 
+    //Xác nhận thêm
     submitBtn.click(function() {
         if (validateForm().length === 0) {
             addClass();
@@ -72,15 +76,7 @@ $(document).ready(function() {
     })
 });
 
-//ADD
-function resetModal() {
-    $(".manager__modal-alert__item").removeClass("active open");
-    $(".form__input-name").removeClass("form__input--error");
-    $(".form__input-name").val("");
-    $(".input__select-value__training").html($(".traning__select").children().html());
-    $(".input__select-value__genera").html($(".genera__select").children().html());
-}
-
+//Mã sinh tự động
 function generateID() {
     let listClass = localStorage.getItem("listClass") ?
         JSON.parse(localStorage.getItem("listClass")) : [];
@@ -92,29 +88,44 @@ function generateID() {
     return autoID;
 }
 
+//Lấy danh sách chuyên ngành
 function renderSelectTraining() {
     let listTraining = localStorage.getItem("listTraining") ?
         JSON.parse(localStorage.getItem("listTraining")) : [];
     let traning = ``
     for (let i = 0; i < listTraining.length; i++) {
-        let content = listTraining[i].id + " - " + listTraining[i].name;
-        traning += `<div class="input__option"><span>${content}</span></div>`
+        if (listTraining[i].status === "Hoạt động") {
+            let content = listTraining[i].id + " - " + listTraining[i].name;
+            traning += `<div class="input__option"><span>${content}</span></div>`
+        }
     }
     $(".input__list-option.traning__select").html(traning);
 }
 
+//Lấy danh sách hệ đào tạo
 function renderSelectGenera() {
     let listGenera = localStorage.getItem("listGenera") ?
         JSON.parse(localStorage.getItem("listGenera")) : [];
     let genera = ``
     for (let i = 0; i < listGenera.length; i++) {
-        let content = listGenera[i].id + " - " + listGenera[i].name;
-        genera += `<div class="input__option"><span>${content}</span></div>`
+        if (listGenera[i].status === "Hoạt động") {
+            let content = listGenera[i].id + " - " + listGenera[i].name;
+            genera += `<div class="input__option"><span>${content}</span></div>`
+        }
     }
     $(".input__list-option.genera__select").html(genera);
 }
 
+//Reset modal
+function resetModal() {
+    $(".manager__modal-alert__item").removeClass("active open");
+    $(".form__input-name").removeClass("form__input--error");
+    $(".form__input-name").val("");
+    $(".input__select-value__training").html($(".traning__select").children().html());
+    $(".input__select-value__genera").html($(".genera__select").children().html());
+}
 
+//Thêm
 function addClass() {
     let listClass = localStorage.getItem("listClass") ?
         JSON.parse(localStorage.getItem("listClass")) : [];
@@ -141,27 +152,7 @@ function addClass() {
     renderClass();
 }
 
-function infoTraining(id) {
-    let listTraining = localStorage.getItem("listTraining") ?
-        JSON.parse(localStorage.getItem("listTraining")) : [];
-
-}
-
-//EDIT
-function loadModal(index) {
-    let listClass = localStorage.getItem("listClass") ?
-        JSON.parse(localStorage.getItem("listClass")) : [];
-    let listTraining = localStorage.getItem("listTraining") ?
-        JSON.parse(localStorage.getItem("listTraining")) : [];
-    $(".form__input-id").attr("placeholder", listClass[index].id);
-    $(".form__input-name").val(listClass[index].name);
-
-    let training = infoTraining(listClass[index].traning);
-    $(".input__select-value__training").html(training);
-    let genera = infoGenera(listClass[index].genera);
-    $(".input__select-value__genera").html(genera);
-}
-
+//Thông tin chuyên ngành
 function infoTraining(id) {
     let listTraining = localStorage.getItem("listTraining") ?
         JSON.parse(localStorage.getItem("listTraining")) : [];
@@ -172,6 +163,7 @@ function infoTraining(id) {
     }
 }
 
+//Thông tin hệ đào tạo
 function infoGenera(id) {
     let listGenera = localStorage.getItem("listGenera") ?
         JSON.parse(localStorage.getItem("listGenera")) : [];
@@ -182,6 +174,7 @@ function infoGenera(id) {
     }
 }
 
+//Mở modal sửa
 function editObj(index) {
     $(".get-index").val(index);
     $(".manager__modal").addClass("active");
@@ -192,6 +185,21 @@ function editObj(index) {
     loadModal(index);
 }
 
+//Load thông tin đối tượng lên modal
+function loadModal(index) {
+    let listClass = localStorage.getItem("listClass") ?
+        JSON.parse(localStorage.getItem("listClass")) : [];
+    let listTraining = localStorage.getItem("listTraining") ?
+        JSON.parse(localStorage.getItem("listTraining")) : [];
+    $(".form__input-id").attr("placeholder", listClass[index].id);
+    $(".form__input-name").val(listClass[index].name);
+    let training = infoTraining(listClass[index].traning);
+    $(".input__select-value__training").html(training);
+    let genera = infoGenera(listClass[index].genera);
+    $(".input__select-value__genera").html(genera);
+}
+
+//Sửa
 function editClass() {
     if (validateForm().length === 0) {
         let listClass = localStorage.getItem("listClass") ?
@@ -237,24 +245,23 @@ function editClass() {
     }
 }
 
-//DELETE
+//Mở alert xóa
 function deleteObj(index) {
     $(".get-index").val(index);
     let modal = $(".manager__alert");
     let modalContent = $(".manager__alert-content");
     let deleteBtn = $(".table__icon-delete");
     let closeBtn = $(".manager__modal-close");
-    deleteBtn.click(function() {
-        $(".manager__modal-title > h5").html("Xóa thông tin lớp học");
-        modal.addClass("active");
-        modalContent.addClass("scale-up-center");
-    })
+    $(".manager__modal-title > h5").html("Xóa thông tin lớp học");
+    modal.addClass("active");
+    modalContent.addClass("scale-up-center");
     let listClass = localStorage.getItem("listClass") ?
         JSON.parse(localStorage.getItem("listClass")) : [];
     let idObj = listClass[index].id;
     $(".get-id-del").html(idObj);
 }
 
+//Xóa
 function deleteClass() {
     let listClass = localStorage.getItem("listClass") ?
         JSON.parse(localStorage.getItem("listClass")) : [];
@@ -271,7 +278,7 @@ function deleteClass() {
     }, 400);
 }
 
-//DISPLAY
+//Mở modal hiển thị
 function displayObj(index) {
     $(".get-index").val(index);
     $(".manager__modal").addClass("active");
@@ -282,31 +289,7 @@ function displayObj(index) {
     loadModal(index);
 }
 
-//ORTHER
-function tooltip() {
-    $(".table__icon").click(function() {
-        $(this).siblings().toggle();
-
-    })
-}
-
-function selectInput() {
-    let inputSelect = $(".input__select");
-    let inputListOption = $(".input__list-option");
-    let inputOption = $(".input__option");
-
-
-    $(inputSelect).click(function(e) {
-        e.preventDefault();
-        $(this).children(".input__list-option").toggle();
-    });
-
-    $(inputOption).click(function(e) {
-        e.preventDefault();
-        $(this).parents(".input__list-option").siblings(".input__select-value").html($(this).children().html());
-    });
-}
-
+//Tên chuyên ngành
 function nameTraning(id) {
     let listTraining = localStorage.getItem("listTraining") ?
         JSON.parse(localStorage.getItem("listTraining")) : [];
@@ -317,6 +300,7 @@ function nameTraning(id) {
     }
 }
 
+//Tên hệ đào tạo
 function nameGenera(id) {
     let listGenera = localStorage.getItem("listGenera") ?
         JSON.parse(localStorage.getItem("listGenera")) : [];
@@ -327,7 +311,7 @@ function nameGenera(id) {
     }
 }
 
-//RENDER
+//Hiển thị thông tin danh sách lớp
 function renderClass() {
     let listClass = localStorage.getItem("listClass") ?
         JSON.parse(localStorage.getItem("listClass")) : [];
@@ -359,5 +343,27 @@ function renderClass() {
     </tbody>`
     }
     $(".table").html(genera);
+}
 
+//Khác
+function tooltip() {
+    $(".table__icon").click(function() {
+        $(this).siblings().toggle();
+    })
+}
+
+function selectInput() {
+    let inputSelect = $(".input__select");
+    let inputOption = $(".input__option");
+
+
+    $(inputSelect).click(function(e) {
+        e.preventDefault();
+        $(this).children(".input__list-option").toggle();
+    });
+
+    $(inputOption).click(function(e) {
+        e.preventDefault();
+        $(this).parents(".input__list-option").siblings(".input__select-value").html($(this).children().html());
+    });
 }
