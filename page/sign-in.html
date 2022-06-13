@@ -17,6 +17,7 @@
     <!-- js -->
     <script src="../assets/js/global/jquery-3.6.0.js"></script>
     <script src="../assets/js/global/public.js"></script>
+    <script src="../assets/js/local/login/login.js"></script>
 </head>
 
 <body>
@@ -304,7 +305,7 @@
                                 <div class="form-input__wrap">
                                     <h5>Tên tài khoản</h5>
                                     <div class="sign-input">
-                                        <input type="text" placeholder="Tài khoản">
+                                        <input id="acc" type="text" placeholder="Tài khoản">
                                         <i class="fal fa-user-circle"></i>
                                     </div>
                                 </div>
@@ -312,7 +313,7 @@
                                 <div class="form-input__wrap">
                                     <h5>Mật khẩu</h5>
                                     <div class="sign-input">
-                                        <input type="text" placeholder="Mật khẩu">
+                                        <input id="pass" type="text" placeholder="Mật khẩu">
                                         <i class="fal fa-lock"></i>
                                     </div>
                                 </div>
@@ -328,6 +329,7 @@
                                 </div>
 
                                 <a href="../admin/dashboard.html" class="sign-in__btn e-btn"> <span></span> Đăng nhập</a>
+                                <p id="mes"></p>
                             </div>
                         </div>
                     </div>
