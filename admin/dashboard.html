@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="../assets/css/local/admin-manager/dashboard.css">
     <!-- js -->
     <script src="../assets/js/global/jquery-3.6.0.js"></script>
+    <script src="../assets/js/local/admin-manager/dashboard.js"></script>
 </head>
 
 <body>
@@ -176,7 +177,7 @@
                         <div class="report__box-header">
                             <div class="report__container">
                                 <p class="report__title--normal">Số lớp học</p>
-                                <h5 class="report__data">28</h5>
+                                <h5 id="numberClass" class="report__data">28</h5>
                             </div>
 
                             <div class="report__icon">
@@ -198,7 +199,7 @@
                         <div class="report__box-header">
                             <div class="report__container">
                                 <p class="report__title--normal">Số sinh viên</p>
-                                <h5 class="report__data">23</h5>
+                                <h5 id="numberStudent" class="report__data">23</h5>
                             </div>
 
                             <div class="report__icon">
@@ -220,7 +221,7 @@
                         <div class="report__box-header">
                             <div class="report__container">
                                 <p class="report__title--normal">Số giảng viên</p>
-                                <h5 class="report__data">12</h5>
+                                <h5 id="numberTeacher" class="report__data">12</h5>
                             </div>
 
                             <div class="report__icon">
@@ -259,7 +260,18 @@
                             <div class="report__chart--pie-item">
                                 <div class="report__chart--pie-title">
                                     <div class="report__chart--pie-dots"></div>
-                                    <p>CNTT</p>
+                                    <p>CNW</p>
+                                </div>
+
+                                <div class="report__chart--pie-parameter">
+                                    <h5>33%</h5>
+                                </div>
+                            </div>
+
+                            <div class="report__chart--pie-item">
+                                <div class="report__chart--pie-title">
+                                    <div class="report__chart--pie-dots"></div>
+                                    <p>CNDD</p>
                                 </div>
 
                                 <div class="report__chart--pie-parameter">
@@ -271,17 +283,6 @@
                                 <div class="report__chart--pie-title">
                                     <div class="report__chart--pie-dots"></div>
                                     <p>KTPM</p>
-                                </div>
-
-                                <div class="report__chart--pie-parameter">
-                                    <h5>33%</h5>
-                                </div>
-                            </div>
-
-                            <div class="report__chart--pie-item">
-                                <div class="report__chart--pie-title">
-                                    <div class="report__chart--pie-dots"></div>
-                                    <p>KHPT</p>
                                 </div>
                                 <div class="report__chart--pie-parameter">
                                     <h5>34%</h5>
