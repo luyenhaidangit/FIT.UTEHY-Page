@@ -1,6 +1,4 @@
 $(document).ready(function() {
-    renderGenera();
-
     let modal = $(".manager__modal");
     let modalContent = $(".manager__modal-content");
     let alert = $(".manager__alert");
@@ -8,10 +6,13 @@ $(document).ready(function() {
     let addBtn = $(".add__btn");
     let closeBtn = $(".manager__modal-close");
     let submitBtn = $(".btn--submit");
+    renderGenera();
+
     tooltip();
 
     selectInput();
 
+    //Mở modal thêm
     addBtn.click(function() {
         resetModal();
         $(".manager__modal-title > h5").html("Nhập thông tin hệ đào tạo");
@@ -22,6 +23,7 @@ $(document).ready(function() {
         $(".form__input-id").attr("placeholder", generateID());
     })
 
+    //Đóng modal
     closeBtn.click(function() {
         modalContent.removeClass("scale-up-center").addClass("scale-down-center");
         setTimeout(function() {
@@ -36,6 +38,7 @@ $(document).ready(function() {
         }, 400);
     })
 
+    //Đóng alert
     let skipBtn = $(".btn__skip");
     skipBtn.click(function() {
         alertContent.removeClass("scale-up-center").addClass("scale-down-center");
@@ -45,6 +48,7 @@ $(document).ready(function() {
         }, 400);
     })
 
+    //Xác nhận thêm
     submitBtn.click(function() {
         if (validateForm().length === 0) {
             addTraining();
@@ -68,16 +72,7 @@ $(document).ready(function() {
     })
 });
 
-//ADD
-function resetModal() {
-    $(".manager__modal-alert__item").removeClass("active open");
-    $(".form__input-name").removeClass("form__input--error");
-    let inputOptionFirts = $(".input__option:first-child");
-    $(".input__select-value").html($(inputOptionFirts).children().html());
-    $(".form__input-name").val("");
-    $(".form__input-desc").val("");
-}
-
+//Mã sinh tự động
 function generateID() {
     let listGenera = localStorage.getItem("listGenera") ?
         JSON.parse(localStorage.getItem("listGenera")) : [];
@@ -89,6 +84,17 @@ function generateID() {
     return autoID;
 }
 
+//Reset modal
+function resetModal() {
+    $(".manager__modal-alert__item").removeClass("active open");
+    $(".form__input-name").removeClass("form__input--error");
+    let inputOptionFirts = $(".input__option:first-child");
+    $(".input__select-value").html($(inputOptionFirts).children().html());
+    $(".form__input-name").val("");
+    $(".form__input-desc").val("");
+}
+
+//Thêm
 function addTraining() {
     let listGenera = localStorage.getItem("listGenera") ?
         JSON.parse(localStorage.getItem("listGenera")) : [];
@@ -113,17 +119,9 @@ function addTraining() {
     renderGenera();
 }
 
-//EDIT
-function loadModal(index) {
-    let listGenera = localStorage.getItem("listGenera") ?
-        JSON.parse(localStorage.getItem("listGenera")) : [];
-    $(".form__input-id").attr("placeholder", listGenera[index].id);
-    $(".form__input-name").val(listGenera[index].name);
-    $(".input__select-value").html(listGenera[index].status);
-    $(".form__input-desc").val(listGenera[index].desc);
-}
-
+//Mở modal sửa
 function editObj(index) {
+    resetModal();
     $(".get-index").val(index);
     $(".manager__modal").addClass("active");
     $(".manager__modal-content").addClass("scale-up-center");
@@ -133,6 +131,17 @@ function editObj(index) {
     loadModal(index);
 }
 
+//Load thông tin đối tượng tới modal
+function loadModal(index) {
+    let listGenera = localStorage.getItem("listGenera") ?
+        JSON.parse(localStorage.getItem("listGenera")) : [];
+    $(".form__input-id").attr("placeholder", listGenera[index].id);
+    $(".form__input-name").val(listGenera[index].name);
+    $(".input__select-value").html(listGenera[index].status);
+    $(".form__input-desc").val(listGenera[index].desc);
+}
+
+//Sửa
 function editGenera() {
     if (validateForm().length === 0) {
         let listGenera = localStorage.getItem("listGenera") ?
@@ -176,25 +185,21 @@ function editGenera() {
     }
 }
 
-//DELETE
+//Mở alert xóa
 function deleteObj(index) {
     $(".get-index").val(index);
-    console.log(typeof $(".get-index").val());
     let modal = $(".manager__alert");
     let modalContent = $(".manager__alert-content");
-    let deleteBtn = $(".table__icon-delete");
-    let closeBtn = $(".manager__modal-close");
-    deleteBtn.click(function() {
-        $(".manager__modal-title > h5").html("Xóa thông tin hệ đào tạo");
-        modal.addClass("active");
-        modalContent.addClass("scale-up-center");
-    })
+    $(".manager__modal-title > h5").html("Xóa thông tin hệ đào tạo");
+    modal.addClass("active");
+    modalContent.addClass("scale-up-center");
     let listGenera = localStorage.getItem("listGenera") ?
         JSON.parse(localStorage.getItem("listGenera")) : [];
     let idObj = listGenera[index].id;
     $(".get-id-del").html(idObj);
 }
 
+//Xóa
 function deleteGenera() {
     let listGenera = localStorage.getItem("listGenera") ?
         JSON.parse(localStorage.getItem("listGenera")) : [];
@@ -211,7 +216,7 @@ function deleteGenera() {
     }, 400);
 }
 
-//DISPLAY
+//Mở modal thông tin chi tiết
 function displayObj(index) {
     $(".get-index").val(index);
     $(".manager__modal").addClass("active");
@@ -222,32 +227,7 @@ function displayObj(index) {
     loadModal(index);
 }
 
-//ORTHER
-function tooltip() {
-    $(".table__icon").click(function() {
-        $(this).siblings().toggle();
-
-    })
-}
-
-function selectInput() {
-    let inputSelect = $(".input__select");
-    let inputListOption = $(".input__list-option");
-    let inputOption = $(".input__option");
-
-
-    $(inputSelect).click(function(e) {
-        e.preventDefault();
-        $(inputListOption).toggle();
-    });
-
-    $(inputOption).click(function(e) {
-        e.preventDefault();
-        $(".input__select-value").html($(this).children().html());
-    });
-}
-
-//RENDER
+//Hiển thị dữ liệu
 function renderGenera() {
     let listGenera = localStorage.getItem("listGenera") ?
         JSON.parse(localStorage.getItem("listGenera")) : [];
@@ -289,4 +269,29 @@ function renderGenera() {
     }
     $(".table").html(genera);
 
+}
+
+//Khác
+function tooltip() {
+    $(".table__icon").click(function() {
+        $(this).siblings().toggle();
+
+    })
+}
+
+function selectInput() {
+    let inputSelect = $(".input__select");
+    let inputListOption = $(".input__list-option");
+    let inputOption = $(".input__option");
+
+
+    $(inputSelect).click(function(e) {
+        e.preventDefault();
+        $(inputListOption).toggle();
+    });
+
+    $(inputOption).click(function(e) {
+        e.preventDefault();
+        $(".input__select-value").html($(this).children().html());
+    });
 }
