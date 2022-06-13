@@ -1,19 +1,18 @@
 $(document).ready(function() {
-    renderTraning();
-
     let modal = $(".manager__modal");
     let modalContent = $(".manager__modal-content");
     let alert = $(".manager__alert");
     let alertContent = $(".manager__alert-content");
     let addBtn = $(".add__btn");
-    var editBtn = $(".edit__btn");
     let closeBtn = $(".manager__modal-close");
     let submitBtn = $(".btn--submit");
-    var indexEdit = 0;
+    renderTraning();
+
     tooltip();
 
-    // selectInput();
+    selectInput();
 
+    //Mở modal thêm
     addBtn.click(function() {
         resetModal();
         $(".manager__modal-title > h5").html("Nhập thông tin chuyên ngành");
@@ -24,6 +23,7 @@ $(document).ready(function() {
         $(".form__input-id").attr("placeholder", generateID());
     })
 
+    //Đóng modal
     closeBtn.click(function() {
         modalContent.removeClass("scale-up-center").addClass("scale-down-center");
         setTimeout(function() {
@@ -38,6 +38,7 @@ $(document).ready(function() {
         }, 400);
     })
 
+    //Đóng alert
     let skipBtn = $(".btn__skip");
     skipBtn.click(function() {
         alertContent.removeClass("scale-up-center").addClass("scale-down-center");
@@ -47,6 +48,7 @@ $(document).ready(function() {
         }, 400);
     })
 
+    //Xác nhận thêm
     submitBtn.click(function() {
         if (validateForm().length === 0) {
             addTraining();
@@ -70,17 +72,9 @@ $(document).ready(function() {
     })
 });
 
-function displayObj(index) {
-    $(".get-index").val(index);
-    $(".manager__modal").addClass("active");
-    $(".manager__modal-content").addClass("scale-up-center");
-    $(".manager__modal-title > h5").html("Hiển thị thông tin chuyên ngành");
-    $(".btn--submit").css("display", "none");
-    $(".btn--update").css("display", "none");
-    loadModal(index);
-}
-
+//Mở modal sửa
 function editObj(index) {
+    resetModal();
     $(".get-index").val(index);
     $(".manager__modal").addClass("active");
     $(".manager__modal-content").addClass("scale-up-center");
@@ -90,13 +84,13 @@ function editObj(index) {
     loadModal(index);
 }
 
+//Mở alert xóa
 function deleteObj(index) {
     $(".get-index").val(index);
     console.log(typeof $(".get-index").val());
     let modal = $(".manager__alert");
     let modalContent = $(".manager__alert-content");
     let deleteBtn = $(".table__icon-delete");
-    let closeBtn = $(".manager__modal-close");
     deleteBtn.click(function() {
         $(".manager__modal-title > h5").html("Xóa thông tin chuyên ngành");
         modal.addClass("active");
@@ -108,22 +102,43 @@ function deleteObj(index) {
     $(".get-id-del").html(idObj);
 }
 
-function deleteTraining() {
-    let listTraining = localStorage.getItem("listTraining") ?
-        JSON.parse(localStorage.getItem("listTraining")) : [];
-    let index = $(".get-index").val();
-    listTraining.splice(index, 1);
-    localStorage.setItem("listTraining", JSON.stringify(listTraining));
-    renderTraning();
-    let alert = $(".manager__alert");
-    let alertContent = $(".manager__alert-content");
-    alertContent.removeClass("scale-up-center").addClass("scale-down-center");
-    setTimeout(function() {
-        alert.removeClass("active");
-        alertContent.removeClass("scale-down-center");
-    }, 400);
+//Mở modal thông tin chi tiết
+function displayObj(index) {
+    $(".get-index").val(index);
+    $(".manager__modal").addClass("active");
+    $(".manager__modal-content").addClass("scale-up-center");
+    $(".manager__modal-title > h5").html("Hiển thị thông tin chuyên ngành");
+    $(".btn--submit").css("display", "none");
+    $(".btn--update").css("display", "none");
+    loadModal(index);
 }
 
+//Thêm
+function addTraining() {
+    let listTraining = localStorage.getItem("listTraining") ?
+        JSON.parse(localStorage.getItem("listTraining")) : [];
+    let id = generateID();
+    let name = $(".form__input-name").val();
+    let status = $(".form__input-select").text();
+    let desc = $(".form__input-desc").val();
+    listTraining.push({
+        id: id,
+        name: name,
+        status: status,
+        desc: desc,
+    });
+    let modal = $(".manager__modal");
+    let modalContent = $(".manager__modal-content");
+    modalContent.removeClass("scale-up-center").addClass("scale-down-center");
+    setTimeout(function() {
+        modal.removeClass("active");
+        modalContent.removeClass("scale-down-center");
+    }, 400);
+    localStorage.setItem("listTraining", JSON.stringify(listTraining));
+    renderTraning();
+}
+
+//Sửa
 function editTraining() {
     if (validateForm().length === 0) {
         let listTraining = localStorage.getItem("listTraining") ?
@@ -167,6 +182,34 @@ function editTraining() {
     }
 }
 
+//Xóa
+function deleteTraining() {
+    let listTraining = localStorage.getItem("listTraining") ?
+        JSON.parse(localStorage.getItem("listTraining")) : [];
+    let index = $(".get-index").val();
+    listTraining.splice(index, 1);
+    localStorage.setItem("listTraining", JSON.stringify(listTraining));
+    renderTraning();
+    let alert = $(".manager__alert");
+    let alertContent = $(".manager__alert-content");
+    alertContent.removeClass("scale-up-center").addClass("scale-down-center");
+    setTimeout(function() {
+        alert.removeClass("active");
+        alertContent.removeClass("scale-down-center");
+    }, 400);
+}
+
+//Reset modal
+function resetModal() {
+    $(".manager__modal-alert__item").removeClass("active open");
+    $(".form__input-name").removeClass("form__input--error");
+    let inputOptionFirts = $(".input__option:first-child");
+    $(".input__select-value").html($(inputOptionFirts).children().html());
+    $(".form__input-name").val("");
+    $(".form__input-desc").val("");
+}
+
+//Load modal sửa
 function loadModal(index) {
     let listTraining = localStorage.getItem("listTraining") ?
         JSON.parse(localStorage.getItem("listTraining")) : [];
@@ -175,6 +218,8 @@ function loadModal(index) {
     $(".input__select-value").html(listTraining[index].status);
     $(".form__input-desc").val(listTraining[index].desc);
 }
+
+//Khác
 
 function selectInput() {
     let inputSelect = $(".input__select");
@@ -192,6 +237,21 @@ function selectInput() {
         $(".input__select-value").html($(this).children().html());
     });
 }
+
+function tooltip() {
+    $(".table__icon").click(function() {
+        $(this).siblings().toggle();
+
+    })
+}
+
+
+
+
+
+
+
+
 
 function resetModal() {
     $(".manager__modal-alert__item").removeClass("active open");
@@ -242,6 +302,7 @@ function renderTraning() {
     </tbody>`
     }
     $(".table").html(traning);
+
 }
 
 
@@ -255,35 +316,4 @@ function generateID() {
     }
     let autoID = listid.length > 0 ? Math.max(...listid) + 1 : 1160;
     return autoID;
-}
-
-function addTraining() {
-    let listTraining = localStorage.getItem("listTraining") ?
-        JSON.parse(localStorage.getItem("listTraining")) : [];
-    let id = generateID();
-    let name = $(".form__input-name").val();
-    let status = $(".form__input-select").text();
-    let desc = $(".form__input-desc").val();
-    listTraining.push({
-        id: id,
-        name: name,
-        status: status,
-        desc: desc,
-    });
-    let modal = $(".manager__modal");
-    let modalContent = $(".manager__modal-content");
-    modalContent.removeClass("scale-up-center").addClass("scale-down-center");
-    setTimeout(function() {
-        modal.removeClass("active");
-        modalContent.removeClass("scale-down-center");
-    }, 400);
-    localStorage.setItem("listTraining", JSON.stringify(listTraining));
-    renderTraning();
-}
-
-function tooltip() {
-    $(".table__icon").click(function() {
-        $(this).siblings().toggle();
-
-    })
 }

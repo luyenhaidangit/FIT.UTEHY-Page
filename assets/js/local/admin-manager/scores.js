@@ -185,36 +185,36 @@ function renderSelectSubject() {
 }
 
 
-function resetModal() {
-    $(".input__select-class").removeClass("disabled");
-    $(".input__select-subject").removeClass("disabled");
-    $(".form__input-class").removeClass("form__input-disable");
-    $(".input__select-value__class").removeClass("form__input-disable");
-    $(".form__input-subject").removeClass("form__input-disable");
-    $(".input__select-value__subject").removeClass("form__input-disable");
-    $(".manager__modal-alert__item").removeClass("active open");
-    $(".form__input-name").removeClass("form__input--error");
-    $(".form__input-class").removeClass("form__input--error");
-    $(".form__input-teacher").removeClass("form__input--error");
-    $(".form__input-date").removeClass("form__input--error");
-    $(".form__input-date").removeClass("form__input--error");
-    $(".form__input-andress").removeClass("form__input--error");
-    $(".form__input-phone").removeClass("form__input--error");
-    $(".form__input-semester").removeClass("form__input--error");
-    $(".form__input-semester").val("");
-    $(".form__input-name").val("");
-    $(".form__input-mark1").val("");
-    $(".form__input-mark2").val("");
-    $(".form__input-date").val("");
-    $(".form__input-select.select__normal").html($(".list-option__normal").children().html());
-    $(".form__input-andress").val("");
-    $(".form__input-phone").val("");
-    $(".input__select-value__class").html($(".class__select").children().html());
-    $(".input__select-value__teacher").html($(".teacher__select").children().html());
-    $(".input__select-value__subject").html($(".subject__select").children().html());
-    $(".input__select-value__status").html($(".list-option__status").children().html());
-    $(".input__select-value__student").html($(".student__select").children().html());
-}
+// function resetModal() {
+//     $(".input__select-class").removeClass("disabled");
+//     $(".input__select-subject").removeClass("disabled");
+//     $(".form__input-class").removeClass("form__input-disable");
+//     $(".input__select-value__class").removeClass("form__input-disable");
+//     $(".form__input-subject").removeClass("form__input-disable");
+//     $(".input__select-value__subject").removeClass("form__input-disable");
+//     $(".manager__modal-alert__item").removeClass("active open");
+//     $(".form__input-name").removeClass("form__input--error");
+//     $(".form__input-class").removeClass("form__input--error");
+//     $(".form__input-teacher").removeClass("form__input--error");
+//     $(".form__input-date").removeClass("form__input--error");
+//     $(".form__input-date").removeClass("form__input--error");
+//     $(".form__input-andress").removeClass("form__input--error");
+//     $(".form__input-phone").removeClass("form__input--error");
+//     $(".form__input-semester").removeClass("form__input--error");
+//     $(".form__input-semester").val("");
+//     $(".form__input-name").val("");
+//     $(".form__input-mark1").val("");
+//     $(".form__input-mark2").val("");
+//     $(".form__input-date").val("");
+//     $(".form__input-select.select__normal").html($(".list-option__normal").children().html());
+//     $(".form__input-andress").val("");
+//     $(".form__input-phone").val("");
+//     $(".input__select-value__class").html($(".class__select").children().html());
+//     $(".input__select-value__teacher").html($(".teacher__select").children().html());
+//     $(".input__select-value__subject").html($(".subject__select").children().html());
+//     $(".input__select-value__status").html($(".list-option__status").children().html());
+//     $(".input__select-value__student").html($(".student__select").children().html());
+// }
 
 function addScores() {
     let listScores = localStorage.getItem("listScores") ?
