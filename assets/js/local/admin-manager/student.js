@@ -298,7 +298,7 @@ function editStudent() {
                 $(".manager__modal-alert__item.alert--danger__case02").addClass("active open");
                 $(".form__input-andress").addClass("form__input--error");
                 $(".form__input-andress").focusout(function() {
-                    if (validateForm()[1] !== 1) {
+                    if (validateForm()[2] !== 2) {
                         $(".form__input-andress").removeClass("form__input--error");
                         $(".manager__modal-alert__item.alert--danger__case02").addClass("close");
                         setTimeout(function() {
@@ -312,7 +312,7 @@ function editStudent() {
                 $(".manager__modal-alert__item.alert--danger__case03").addClass("active open");
                 $(".form__input-phone").addClass("form__input--error");
                 $(".form__input-phone").focusout(function() {
-                    if (validateForm()[1] !== 1) {
+                    if (validateForm()[3] !== 3) {
                         $(".form__input-phone").removeClass("form__input--error");
                         $(".manager__modal-alert__item.alert--danger__case03").addClass("close");
                         setTimeout(function() {
