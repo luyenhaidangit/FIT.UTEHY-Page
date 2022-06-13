@@ -1,9 +1,4 @@
 $(document).ready(function() {
-
-
-
-    renderSubject();
-
     let modal = $(".manager__modal");
     let modalContent = $(".manager__modal-content");
     let alert = $(".manager__alert");
@@ -11,10 +6,13 @@ $(document).ready(function() {
     let addBtn = $(".add__btn");
     let closeBtn = $(".manager__modal-close");
     let submitBtn = $(".btn--submit");
+    renderSubject();
+
     tooltip();
 
     selectInput();
 
+    //Mở modal thêm
     addBtn.click(function() {
         resetModal();
         $(".manager__modal-title > h5").html("Nhập thông tin môn học");
@@ -25,6 +23,7 @@ $(document).ready(function() {
         $(".form__input-id").attr("placeholder", generateID());
     })
 
+    //Đóng modal
     closeBtn.click(function() {
         modalContent.removeClass("scale-up-center").addClass("scale-down-center");
         setTimeout(function() {
@@ -39,6 +38,7 @@ $(document).ready(function() {
         }, 400);
     })
 
+    //Đóng alert
     let skipBtn = $(".btn__skip");
     skipBtn.click(function() {
         alertContent.removeClass("scale-up-center").addClass("scale-down-center");
@@ -48,6 +48,7 @@ $(document).ready(function() {
         }, 400);
     })
 
+    //Xác nhận thêm
     submitBtn.click(function() {
         if (validateForm().length === 0) {
             addSubject();
@@ -110,7 +111,7 @@ $(document).ready(function() {
     })
 });
 
-//ADD
+//Reset modal
 function resetModal() {
     $(".manager__modal-alert__item").removeClass("active open");
     $(".form__input-name").removeClass("form__input--error");
@@ -129,6 +130,7 @@ function resetModal() {
     $(".input__select-value__status").html($(".list-option__status").children().html());
 }
 
+//Mã sinh tự động
 function generateID() {
     let listSubject = localStorage.getItem("listSubject") ?
         JSON.parse(localStorage.getItem("listSubject")) : [];
@@ -140,6 +142,7 @@ function generateID() {
     return autoID;
 }
 
+//Thêm
 function addSubject() {
     let listSubject = localStorage.getItem("listSubject") ?
         JSON.parse(localStorage.getItem("listSubject")) : [];
@@ -162,9 +165,7 @@ function addSubject() {
     renderSubject();
 }
 
-
-
-//EDIT
+//Load thông tin đối tượng lên modal
 function loadModal(index) {
     let listSubject = localStorage.getItem("listSubject") ?
         JSON.parse(localStorage.getItem("listSubject")) : [];
@@ -174,8 +175,9 @@ function loadModal(index) {
     $(".form__input-num").val(listSubject[index].num);
 }
 
-
+//Mở modal sửa
 function editObj(index) {
+    resetModal();
     $(".get-index").val(index);
     $(".manager__modal").addClass("active");
     $(".manager__modal-content").addClass("scale-up-center");
@@ -185,8 +187,8 @@ function editObj(index) {
     loadModal(index);
 }
 
+//Sửa
 function editTeacher() {
-    console.log("ok")
     if (validateForm().length === 0) {
         let listSubject = localStorage.getItem("listSubject") ?
             JSON.parse(localStorage.getItem("listSubject")) : [];
@@ -194,7 +196,6 @@ function editTeacher() {
         let id = $(".form__input-id").attr("placeholder");
         let name = $(".form__input-name").val();
         let num = $(".form__input-num").val();
-        let phone = $(".form__input-phone").val();
         listSubject[index] = {
             id: id,
             name: name,
@@ -224,28 +225,65 @@ function editTeacher() {
                     }
                 });
             }
+            if (validateForm()[4] === 4) {
+                $(".manager__modal-alert__item.alert--danger__case04").addClass("active open");
+                $(".form__input-num").addClass("form__input--error");
+                $(".form__input-num").focusout(function() {
+                    if (validateForm()[4] !== 4) {
+                        $(".form__input-num").removeClass("form__input--error");
+                        $(".manager__modal-alert__item.alert--danger__case04").addClass("close");
+                        setTimeout(function() {
+                            $(".manager__modal-alert__item.alert--danger__case04").removeClass("active open close");
+                        }, 1000);
+                        if (validateForm()[5] === 5) {
+                            $(".manager__modal-alert__item.alert--danger__case05").addClass("active open");
+                            $(".form__input-num").addClass("form__input--error");
+                            $(".form__input-num").focusout(function() {
+                                if (validateForm()[5] !== 5) {
+                                    $(".form__input-num").removeClass("form__input--error");
+                                    $(".manager__modal-alert__item.alert--danger__case05").addClass("close");
+                                    setTimeout(function() {
+                                        $(".manager__modal-alert__item.alert--danger__case05").removeClass("active open close");
+                                    }, 1000);
+                                }
+                            });
+                        }
+                    }
+                });
+            } else if (validateForm()[5] === 5) {
+                $(".manager__modal-alert__item.alert--danger__case05").addClass("active open");
+                $(".form__input-num").addClass("form__input--error");
+                $(".form__input-num").focusout(function() {
+                    if (validateForm()[5] !== 5) {
+                        $(".form__input-num").removeClass("form__input--error");
+                        $(".manager__modal-alert__item.alert--danger__case05").addClass("close");
+                        setTimeout(function() {
+                            $(".manager__modal-alert__item.alert--danger__case05").removeClass("active open close");
+                        }, 1000);
+                    }
+                });
+            }
         }
     }
 }
 
-//DELETE
+//Mở modal xóa
 function deleteObj(index) {
     $(".get-index").val(index);
     let modal = $(".manager__alert");
     let modalContent = $(".manager__alert-content");
     let deleteBtn = $(".table__icon-delete");
     let closeBtn = $(".manager__modal-close");
-    deleteBtn.click(function() {
-        $(".manager__modal-title > h5").html("Xóa thông tin môn học");
-        modal.addClass("active");
-        modalContent.addClass("scale-up-center");
-    })
+    $(".manager__modal-title > h5").html("Xóa thông tin môn học");
+    modal.addClass("active");
+    modalContent.addClass("scale-up-center");
     let listSubject = localStorage.getItem("listSubject") ?
         JSON.parse(localStorage.getItem("listSubject")) : [];
     let idObj = listSubject[index].id;
     $(".get-id-del").html(idObj);
 }
 
+//Xóa
 function deleteSubject() {
     let listSubject = localStorage.getItem("listSubject") ?
         JSON.parse(localStorage.getItem("listSubject")) : [];
@@ -262,7 +300,7 @@ function deleteSubject() {
     }, 400);
 }
 
-//DISPLAY
+//Mở modal chi tiết
 function displayObj(index) {
     $(".get-index").val(index);
     $(".manager__modal").addClass("active");
@@ -273,7 +311,7 @@ function displayObj(index) {
     loadModal(index);
 }
 
-//ORTHER
+//Khác
 function tooltip() {
     $(".table__icon").click(function() {
         $(this).siblings().toggle();
@@ -297,32 +335,6 @@ function selectInput() {
         $(this).parents(".input__list-option").siblings(".input__select-value").html($(this).children().html());
     });
 }
-
-function nameTraning(id) {
-    let listTraining = localStorage.getItem("listTraining") ?
-        JSON.parse(localStorage.getItem("listTraining")) : [];
-    for (let i = 0; i < listTraining.length; i++) {
-        if (listTraining[i].id == id) {
-            return listTraining[i].name;
-        }
-    }
-}
-
-function nameGenera(id) {
-    let listGenera = localStorage.getItem("listGenera") ?
-        JSON.parse(localStorage.getItem("listGenera")) : [];
-    for (let i = 0; i < listGenera.length; i++) {
-        if (listGenera[i].id == id) {
-            return listGenera[i].name;
-        }
-    }
-}
-
-function formatBirth(birth) {
-    let arrBirth = birth.split('-');
-    return arrBirth[2] + "-" + arrBirth[1] + "-" + arrBirth[0];
-}
-
 
 //RENDER
 function renderSubject() {
