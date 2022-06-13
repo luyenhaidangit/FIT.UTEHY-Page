@@ -72,45 +72,26 @@ $(document).ready(function() {
     })
 });
 
-//Mở modal sửa
-function editObj(index) {
-    resetModal();
-    $(".get-index").val(index);
-    $(".manager__modal").addClass("active");
-    $(".manager__modal-content").addClass("scale-up-center");
-    $(".manager__modal-title > h5").html("Cập nhật thông tin chuyên ngành");
-    $(".btn--submit").css("display", "none");
-    $(".btn--update").css("display", "inline-block");
-    loadModal(index);
-}
-
-//Mở alert xóa
-function deleteObj(index) {
-    $(".get-index").val(index);
-    console.log(typeof $(".get-index").val());
-    let modal = $(".manager__alert");
-    let modalContent = $(".manager__alert-content");
-    let deleteBtn = $(".table__icon-delete");
-    deleteBtn.click(function() {
-        $(".manager__modal-title > h5").html("Xóa thông tin chuyên ngành");
-        modal.addClass("active");
-        modalContent.addClass("scale-up-center");
-    })
+//Mã sinh tự động
+function generateID() {
     let listTraining = localStorage.getItem("listTraining") ?
         JSON.parse(localStorage.getItem("listTraining")) : [];
-    let idObj = listTraining[index].id;
-    $(".get-id-del").html(idObj);
+    let listid = [];
+    for (let i = 0; i < listTraining.length; i++) {
+        listid.push(listTraining[i].id);
+    }
+    let autoID = listid.length > 0 ? Math.max(...listid) + 1 : 1160;
+    return autoID;
 }
 
-//Mở modal thông tin chi tiết
-function displayObj(index) {
-    $(".get-index").val(index);
-    $(".manager__modal").addClass("active");
-    $(".manager__modal-content").addClass("scale-up-center");
-    $(".manager__modal-title > h5").html("Hiển thị thông tin chuyên ngành");
-    $(".btn--submit").css("display", "none");
-    $(".btn--update").css("display", "none");
-    loadModal(index);
+//Reset modal
+function resetModal() {
+    $(".manager__modal-alert__item").removeClass("active open");
+    $(".form__input-name").removeClass("form__input--error");
+    let inputOptionFirts = $(".input__option:first-child");
+    $(".input__select-value").html($(inputOptionFirts).children().html());
+    $(".form__input-name").val("");
+    $(".form__input-desc").val("");
 }
 
 //Thêm
@@ -136,6 +117,28 @@ function addTraining() {
     }, 400);
     localStorage.setItem("listTraining", JSON.stringify(listTraining));
     renderTraning();
+}
+
+//Mở modal sửa
+function editObj(index) {
+    resetModal();
+    $(".get-index").val(index);
+    $(".manager__modal").addClass("active");
+    $(".manager__modal-content").addClass("scale-up-center");
+    $(".manager__modal-title > h5").html("Cập nhật thông tin chuyên ngành");
+    $(".btn--submit").css("display", "none");
+    $(".btn--update").css("display", "inline-block");
+    loadModal(index);
+}
+
+//Load thông tin lên modal sửa
+function loadModal(index) {
+    let listTraining = localStorage.getItem("listTraining") ?
+        JSON.parse(localStorage.getItem("listTraining")) : [];
+    $(".form__input-id").attr("placeholder", listTraining[index].id);
+    $(".form__input-name").val(listTraining[index].name);
+    $(".input__select-value").html(listTraining[index].status);
+    $(".form__input-desc").val(listTraining[index].desc);
 }
 
 //Sửa
@@ -182,6 +185,21 @@ function editTraining() {
     }
 }
 
+//Mở alert xóa
+function deleteObj(index) {
+    $(".get-index").val(index);
+    console.log(typeof $(".get-index").val());
+    let modal = $(".manager__alert");
+    let modalContent = $(".manager__alert-content");
+    $(".manager__modal-title > h5").html("Xóa thông tin chuyên ngành");
+    modal.addClass("active");
+    modalContent.addClass("scale-up-center");
+    let listTraining = localStorage.getItem("listTraining") ?
+        JSON.parse(localStorage.getItem("listTraining")) : [];
+    let idObj = listTraining[index].id;
+    $(".get-id-del").html(idObj);
+}
+
 //Xóa
 function deleteTraining() {
     let listTraining = localStorage.getItem("listTraining") ?
@@ -199,69 +217,18 @@ function deleteTraining() {
     }, 400);
 }
 
-//Reset modal
-function resetModal() {
-    $(".manager__modal-alert__item").removeClass("active open");
-    $(".form__input-name").removeClass("form__input--error");
-    let inputOptionFirts = $(".input__option:first-child");
-    $(".input__select-value").html($(inputOptionFirts).children().html());
-    $(".form__input-name").val("");
-    $(".form__input-desc").val("");
+//Mở modal thông tin chi tiết
+function displayObj(index) {
+    $(".get-index").val(index);
+    $(".manager__modal").addClass("active");
+    $(".manager__modal-content").addClass("scale-up-center");
+    $(".manager__modal-title > h5").html("Hiển thị thông tin chuyên ngành");
+    $(".btn--submit").css("display", "none");
+    $(".btn--update").css("display", "none");
+    loadModal(index);
 }
 
-//Load modal sửa
-function loadModal(index) {
-    let listTraining = localStorage.getItem("listTraining") ?
-        JSON.parse(localStorage.getItem("listTraining")) : [];
-    $(".form__input-id").attr("placeholder", listTraining[index].id);
-    $(".form__input-name").val(listTraining[index].name);
-    $(".input__select-value").html(listTraining[index].status);
-    $(".form__input-desc").val(listTraining[index].desc);
-}
-
-//Khác
-
-function selectInput() {
-    let inputSelect = $(".input__select");
-    let inputListOption = $(".input__list-option");
-    let inputOption = $(".input__option");
-
-
-    $(inputSelect).click(function(e) {
-        e.preventDefault();
-        $(inputListOption).toggle();
-    });
-
-    $(inputOption).click(function(e) {
-        e.preventDefault();
-        $(".input__select-value").html($(this).children().html());
-    });
-}
-
-function tooltip() {
-    $(".table__icon").click(function() {
-        $(this).siblings().toggle();
-
-    })
-}
-
-
-
-
-
-
-
-
-
-function resetModal() {
-    $(".manager__modal-alert__item").removeClass("active open");
-    $(".form__input-name").removeClass("form__input--error");
-    let inputOptionFirts = $(".input__option:first-child");
-    $(".input__select-value").html($(inputOptionFirts).children().html());
-    $(".form__input-name").val("");
-    $(".form__input-desc").val("");
-}
-
+//Hiển thị thông tin danh sách đối tượng
 function renderTraning() {
     let listTraining = localStorage.getItem("listTraining") ?
         JSON.parse(localStorage.getItem("listTraining")) : [];
@@ -305,15 +272,27 @@ function renderTraning() {
 
 }
 
+//Khác
+function selectInput() {
+    let inputSelect = $(".input__select");
+    let inputListOption = $(".input__list-option");
+    let inputOption = $(".input__option");
 
 
-function generateID() {
-    let listTraining = localStorage.getItem("listTraining") ?
-        JSON.parse(localStorage.getItem("listTraining")) : [];
-    let listid = [];
-    for (let i = 0; i < listTraining.length; i++) {
-        listid.push(listTraining[i].id);
-    }
-    let autoID = listid.length > 0 ? Math.max(...listid) + 1 : 1160;
-    return autoID;
+    $(inputSelect).click(function(e) {
+        e.preventDefault();
+        $(inputListOption).toggle();
+    });
+
+    $(inputOption).click(function(e) {
+        e.preventDefault();
+        $(".input__select-value").html($(this).children().html());
+    });
+}
+
+function tooltip() {
+    $(".table__icon").click(function() {
+        $(this).siblings().toggle();
+
+    })
 }
