@@ -12,7 +12,7 @@ $(document).ready(function() {
     var indexEdit = 0;
     tooltip();
 
-    selectInput();
+    // selectInput();
 
     addBtn.click(function() {
         resetModal();
@@ -242,7 +242,6 @@ function renderTraning() {
     </tbody>`
     }
     $(".table").html(traning);
-
 }
 
 
