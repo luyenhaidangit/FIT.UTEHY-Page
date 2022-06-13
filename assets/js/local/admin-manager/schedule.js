@@ -1,4 +1,11 @@
 $(document).ready(function() {
+    let modal = $(".manager__modal");
+    let modalContent = $(".manager__modal-content");
+    let alert = $(".manager__alert");
+    let alertContent = $(".manager__alert-content");
+    let addBtn = $(".add__btn");
+    let closeBtn = $(".manager__modal-close");
+    let submitBtn = $(".btn--submit");
 
     renderSchedule();
 
@@ -8,18 +15,11 @@ $(document).ready(function() {
 
     renderSelectTeacher();
 
-
-    let modal = $(".manager__modal");
-    let modalContent = $(".manager__modal-content");
-    let alert = $(".manager__alert");
-    let alertContent = $(".manager__alert-content");
-    let addBtn = $(".add__btn");
-    let closeBtn = $(".manager__modal-close");
-    let submitBtn = $(".btn--submit");
     tooltip();
 
     selectInput();
 
+    //Mở modal thêm
     addBtn.click(function() {
         resetModal();
         $(".manager__modal-title > h5").html("Nhập thông tin môn học");
@@ -29,6 +29,7 @@ $(document).ready(function() {
         $(".btn--update").css("display", "none");
     })
 
+    //Đóng modal
     closeBtn.click(function() {
         modalContent.removeClass("scale-up-center").addClass("scale-down-center");
         setTimeout(function() {
@@ -43,6 +44,7 @@ $(document).ready(function() {
         }, 400);
     })
 
+    //Đóng alert
     let skipBtn = $(".btn__skip");
     skipBtn.click(function() {
         alertContent.removeClass("scale-up-center").addClass("scale-down-center");
@@ -52,6 +54,7 @@ $(document).ready(function() {
         }, 400);
     })
 
+    //Xác nhận thêm
     submitBtn.click(function() {
         console.log(validateForm());
         if (validateForm().length === 0) {
@@ -71,45 +74,6 @@ $(document).ready(function() {
                         }
                     });
                 }
-
-                // if (validateForm()[4] === 4) {
-                //     $(".manager__modal-alert__item.alert--danger__case04").addClass("active open");
-                //     $(".form__input-num").addClass("form__input--error");
-                //     $(".form__input-num").focusout(function() {
-                //         if (validateForm()[4] !== 4) {
-                //             $(".form__input-num").removeClass("form__input--error");
-                //             $(".manager__modal-alert__item.alert--danger__case04").addClass("close");
-                //             setTimeout(function() {
-                //                 $(".manager__modal-alert__item.alert--danger__case04").removeClass("active open close");
-                //             }, 1000);
-                //             if (validateForm()[5] === 5) {
-                //                 $(".manager__modal-alert__item.alert--danger__case05").addClass("active open");
-                //                 $(".form__input-num").addClass("form__input--error");
-                //                 $(".form__input-num").focusout(function() {
-                //                     if (validateForm()[5] !== 5) {
-                //                         $(".form__input-num").removeClass("form__input--error");
-                //                         $(".manager__modal-alert__item.alert--danger__case05").addClass("close");
-                //                         setTimeout(function() {
-                //                             $(".manager__modal-alert__item.alert--danger__case05").removeClass("active open close");
-                //                         }, 1000);
-                //                     }
-                //                 });
-                //             }
-                //         }
-                //     });
-                // } else if (validateForm()[5] === 5) {
-                //     $(".manager__modal-alert__item.alert--danger__case05").addClass("active open");
-                //     $(".form__input-num").addClass("form__input--error");
-                //     $(".form__input-num").focusout(function() {
-                //         if (validateForm()[5] !== 5) {
-                //             $(".form__input-num").removeClass("form__input--error");
-                //             $(".manager__modal-alert__item.alert--danger__case05").addClass("close");
-                //             setTimeout(function() {
-                //                 $(".manager__modal-alert__item.alert--danger__case05").removeClass("active open close");
-                //             }, 1000);
-                //         }
-                //     });
-                // }
 
                 if (validateForm()[8] === 8) {
                     $(".manager__modal-alert__item.alert--danger__case08").addClass("active open");
@@ -161,8 +125,7 @@ $(document).ready(function() {
     })
 });
 
-//ADD
-
+//Lấy danh sách lớp
 function renderSelectClass() {
     let listClass = localStorage.getItem("listClass") ?
         JSON.parse(localStorage.getItem("listClass")) : [];
@@ -174,6 +137,7 @@ function renderSelectClass() {
     $(".input__list-option.class__select").html(traning);
 }
 
+//Lấy danh sách môn học
 function renderSelectSubject() {
     let listSubject = localStorage.getItem("listSubject") ?
         JSON.parse(localStorage.getItem("listSubject")) : [];
@@ -185,18 +149,21 @@ function renderSelectSubject() {
     $(".input__list-option.subject__select").html(subject);
 }
 
+//Lấy danh sách giáo viên
 function renderSelectTeacher() {
     let listTeacher = localStorage.getItem("listTeacher") ?
         JSON.parse(localStorage.getItem("listTeacher")) : [];
     let teacher = ``
     for (let i = 0; i < listTeacher.length; i++) {
-        let content = listTeacher[i].id + " - " + listTeacher[i].name;
-        teacher += `<div class="input__option"><span>${content}</span></div>`
+        if (listTeacher[i].status === "Hoạt động") {
+            let content = listTeacher[i].id + " - " + listTeacher[i].name;
+            teacher += `<div class="input__option"><span>${content}</span></div>`
+        }
     }
     $(".input__list-option.teacher__select").html(teacher);
 }
 
-
+//Reset modal
 function resetModal() {
     $(".input__select-class").removeClass("disabled");
     $(".input__select-subject").removeClass("disabled");
@@ -225,6 +192,7 @@ function resetModal() {
     $(".input__select-value__status").html($(".list-option__status").children().html());
 }
 
+//Thêm
 function addSchedule() {
     let listSchedule = localStorage.getItem("listSchedule") ?
         JSON.parse(localStorage.getItem("listSchedule")) : [];
@@ -252,10 +220,7 @@ function addSchedule() {
     renderSchedule();
 }
 
-
-
-//EDIT
-
+//Thông tin lớp
 function infoClass(id) {
     let listClass = localStorage.getItem("listClass") ?
         JSON.parse(localStorage.getItem("listClass")) : [];
@@ -266,6 +231,7 @@ function infoClass(id) {
     }
 }
 
+//Thông tin môn học
 function infoSubject(id) {
     let listSubject = localStorage.getItem("listSubject") ?
         JSON.parse(localStorage.getItem("listSubject")) : [];
@@ -276,6 +242,7 @@ function infoSubject(id) {
     }
 }
 
+//Thông tin giáo viên
 function infoTeacher(id) {
     let listTeacher = localStorage.getItem("listTeacher") ?
         JSON.parse(localStorage.getItem("listTeacher")) : [];
@@ -286,19 +253,19 @@ function infoTeacher(id) {
     }
 }
 
+//Load thông tin đối tượng lên modal
 function loadModal(index) {
     let listSchedule = localStorage.getItem("listSchedule") ?
         JSON.parse(localStorage.getItem("listSchedule")) : [];
-    let listSubject = localStorage.getItem("listSubject") ?
-        JSON.parse(localStorage.getItem("listSubject")) : [];
     $(".input__select-value__class").text(infoClass(listSchedule[index].idClass));
     $(".input__select-value__teacher").text(infoTeacher(listSchedule[index].idTeacher));
     $(".input__select-value__subject").text(infoSubject(listSchedule[index].idSubject));
     $(".form__input-semester").val(listSchedule[index].semester);
 }
 
-
+//Mở modal sửa
 function editObj(index) {
+    resetModal();
     $(".get-index").val(index);
     $(".manager__modal").addClass("active");
     $(".manager__modal-content").addClass("scale-up-center");
@@ -315,6 +282,7 @@ function editObj(index) {
     $(".input__select-subject").addClass("disabled");
 }
 
+//Sửa
 function editSchedule() {
     if (validateForm().length === 0) {
         let listSchedule = localStorage.getItem("listSchedule") ?
@@ -356,45 +324,6 @@ function editSchedule() {
                     }
                 });
             }
-
-            // if (validateForm()[4] === 4) {
-            //     $(".manager__modal-alert__item.alert--danger__case04").addClass("active open");
-            //     $(".form__input-num").addClass("form__input--error");
-            //     $(".form__input-num").focusout(function() {
-            //         if (validateForm()[4] !== 4) {
-            //             $(".form__input-num").removeClass("form__input--error");
-            //             $(".manager__modal-alert__item.alert--danger__case04").addClass("close");
-            //             setTimeout(function() {
-            //                 $(".manager__modal-alert__item.alert--danger__case04").removeClass("active open close");
-            //             }, 1000);
-            //             if (validateForm()[5] === 5) {
-            //                 $(".manager__modal-alert__item.alert--danger__case05").addClass("active open");
-            //                 $(".form__input-num").addClass("form__input--error");
-            //                 $(".form__input-num").focusout(function() {
-            //                     if (validateForm()[5] !== 5) {
-            //                         $(".form__input-num").removeClass("form__input--error");
-            //                         $(".manager__modal-alert__item.alert--danger__case05").addClass("close");
-            //                         setTimeout(function() {
-            //                             $(".manager__modal-alert__item.alert--danger__case05").removeClass("active open close");
-            //                         }, 1000);
-            //                     }
-            //                 });
-            //             }
-            //         }
-            //     });
-            // } else if (validateForm()[5] === 5) {
-            //     $(".manager__modal-alert__item.alert--danger__case05").addClass("active open");
-            //     $(".form__input-num").addClass("form__input--error");
-            //     $(".form__input-num").focusout(function() {
-            //         if (validateForm()[5] !== 5) {
-            //             $(".form__input-num").removeClass("form__input--error");
-            //             $(".manager__modal-alert__item.alert--danger__case05").addClass("close");
-            //             setTimeout(function() {
-            //                 $(".manager__modal-alert__item.alert--danger__case05").removeClass("active open close");
-            //             }, 1000);
-            //         }
-            //     });
-            // }
 
             if (validateForm()[8] === 8) {
                 $(".manager__modal-alert__item.alert--danger__case08").addClass("active open");
@@ -445,18 +374,14 @@ function editSchedule() {
     }
 }
 
-//DELETE
+//Mở alert
 function deleteObj(index) {
     $(".get-index").val(index);
     let modal = $(".manager__alert");
     let modalContent = $(".manager__alert-content");
-    let deleteBtn = $(".table__icon-delete");
-    let closeBtn = $(".manager__modal-close");
-    deleteBtn.click(function() {
-        $(".manager__modal-title > h5").html("Xóa thông tin lịch học");
-        modal.addClass("active");
-        modalContent.addClass("scale-up-center");
-    })
+    $(".manager__modal-title > h5").html("Xóa thông tin lịch học");
+    modal.addClass("active");
+    modalContent.addClass("scale-up-center");
     let listSchedule = localStorage.getItem("listSchedule") ?
         JSON.parse(localStorage.getItem("listSchedule")) : [];
     let idObj = listSchedule[index].idClass;
@@ -465,6 +390,7 @@ function deleteObj(index) {
     $(".get-id-del1").html(idObj1);
 }
 
+//Xóa
 function deleteSubject() {
     let listSchedule = localStorage.getItem("listSchedule") ?
         JSON.parse(localStorage.getItem("listSchedule")) : [];
@@ -481,7 +407,7 @@ function deleteSubject() {
     }, 400);
 }
 
-//DISPLAY
+//Mở modal chi tiết
 function displayObj(index) {
     $(".get-index").val(index);
     $(".manager__modal").addClass("active");
@@ -492,7 +418,7 @@ function displayObj(index) {
     loadModal(index);
 }
 
-//ORTHER
+// Khác
 function tooltip() {
     $(".table__icon").click(function() {
         $(this).siblings().toggle();
@@ -517,34 +443,7 @@ function selectInput() {
     });
 }
 
-function nameTraning(id) {
-    let listTraining = localStorage.getItem("listTraining") ?
-        JSON.parse(localStorage.getItem("listTraining")) : [];
-    for (let i = 0; i < listTraining.length; i++) {
-        if (listTraining[i].id == id) {
-            return listTraining[i].name;
-        }
-    }
-}
-
-function nameGenera(id) {
-    let listGenera = localStorage.getItem("listGenera") ?
-        JSON.parse(localStorage.getItem("listGenera")) : [];
-    for (let i = 0; i < listGenera.length; i++) {
-        if (listGenera[i].id == id) {
-            return listGenera[i].name;
-        }
-    }
-}
-
-function formatBirth(birth) {
-    let arrBirth = birth.split('-');
-    return arrBirth[2] + "-" + arrBirth[1] + "-" + arrBirth[0];
-}
-
-
-//RENDER
-
+//Tên lớp
 function nameClass(id) {
     let listClass = localStorage.getItem("listClass") ?
         JSON.parse(localStorage.getItem("listClass")) : [];
@@ -555,6 +454,7 @@ function nameClass(id) {
     }
 }
 
+//Tên môn
 function nameSubject(id) {
     let listSubject = localStorage.getItem("listSubject") ?
         JSON.parse(localStorage.getItem("listSubject")) : [];
@@ -565,6 +465,7 @@ function nameSubject(id) {
     }
 }
 
+//Tên giáo viên
 function nameTeacher(id) {
     let listTeacher = localStorage.getItem("listTeacher") ?
         JSON.parse(localStorage.getItem("listTeacher")) : [];
@@ -575,6 +476,7 @@ function nameTeacher(id) {
     }
 }
 
+//Hiển thị danh sách 
 function renderSchedule() {
     let listSchedule = localStorage.getItem("listSchedule") ?
         JSON.parse(localStorage.getItem("listSchedule")) : [];
