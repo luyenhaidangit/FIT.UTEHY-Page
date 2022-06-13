@@ -61,19 +61,7 @@ $(document).ready(function() {
             addSchedule();
         } else {
             for (let i = 0; i < validateForm().length; i++) {
-                if (validateForm()[0] === 0) {
-                    $(".manager__modal-alert__item.alert--danger__case00").addClass("active open");
-                    $(".form__input-name").addClass("form__input--error");
-                    $(".form__input-name").focusout(function() {
-                        if (validateForm()[0] !== 0) {
-                            $(".form__input-name").removeClass("form__input--error");
-                            $(".manager__modal-alert__item.alert--danger__case00").addClass("close");
-                            setTimeout(function() {
-                                $(".manager__modal-alert__item.alert--danger__case00").removeClass("active open close");
-                            }, 1000);
-                        }
-                    });
-                }
+
 
                 if (validateForm()[8] === 8) {
                     $(".manager__modal-alert__item.alert--danger__case08").addClass("active open");
@@ -284,7 +272,8 @@ function editObj(index) {
 
 //Sửa
 function editSchedule() {
-    if (validateForm().length === 0) {
+    if (validateForm()[6] === 6) {
+        let index = $(".get-index").val();
         let listSchedule = localStorage.getItem("listSchedule") ?
             JSON.parse(localStorage.getItem("listSchedule")) : [];
         let arrIDClass = $(".input__select-value__class").text().split('-');
@@ -311,20 +300,6 @@ function editSchedule() {
         }, 400);
     } else {
         for (let i = 0; i < validateForm().length; i++) {
-            if (validateForm()[0] === 0) {
-                $(".manager__modal-alert__item.alert--danger__case00").addClass("active open");
-                $(".form__input-name").addClass("form__input--error");
-                $(".form__input-name").focusout(function() {
-                    if (validateForm()[0] !== 0) {
-                        $(".form__input-name").removeClass("form__input--error");
-                        $(".manager__modal-alert__item.alert--danger__case00").addClass("close");
-                        setTimeout(function() {
-                            $(".manager__modal-alert__item.alert--danger__case00").removeClass("active open close");
-                        }, 1000);
-                    }
-                });
-            }
-
             if (validateForm()[8] === 8) {
                 $(".manager__modal-alert__item.alert--danger__case08").addClass("active open");
                 $(".form__input-semester").addClass("form__input--error");
@@ -350,22 +325,6 @@ function editSchedule() {
                         $(".manager__modal-alert__item.alert--danger__case07").addClass("close");
                         setTimeout(function() {
                             $(".manager__modal-alert__item.alert--danger__case07").removeClass("active open close");
-                        }, 1000);
-                    }
-                });
-            }
-
-            if (validateForm()[6] === 6) {
-                $(".manager__modal-alert__item.alert--danger__case06").addClass("active open");
-                $(".form__input-class").addClass("form__input--error");
-                $(".form__input-subject").addClass("form__input--error");
-                $(".input__option").click(function() {
-                    if (validateForm()[6] !== 6) {
-                        $(".form__input-class").removeClass("form__input--error");
-                        $(".form__input-subject").removeClass("form__input--error");
-                        $(".manager__modal-alert__item.alert--danger__case06").addClass("close");
-                        setTimeout(function() {
-                            $(".manager__modal-alert__item.alert--danger__case06").removeClass("active open close");
                         }, 1000);
                     }
                 });

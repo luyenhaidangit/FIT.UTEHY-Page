@@ -42,7 +42,6 @@ function validateForm() {
         }
     }
 
-
     if ($(".form__input-semester").val() > 8 || $(".form__input-num").val() < 1) {
         listError[7] = 7;
     }
@@ -50,6 +49,24 @@ function validateForm() {
     //Số trống
     if ($(".form__input-semester").val() === "") {
         listError[8] = 8;
+    }
+    //Điểm ko hợp lệ
+    if ($(".form__input-mark1").val() > 10 || $(".form__input-mark1").val() < 0 || $(".form__input-mark2").val() > 10 || $(".form__input-mark2").val() < 0) {
+        listError[9] = 9;
+    }
+
+    //Điểm tồn tại
+    let listScores = localStorage.getItem("listScores") ?
+        JSON.parse(localStorage.getItem("listScores")) : [];
+    let arrIDStudent = $(".input__select-value__student").text().split('-');
+    let idStudent = arrIDStudent[0].trim();
+    let arrIDSubject1 = $(".input__select-value__subject").text().split('-');
+    let idSubject1 = arrIDSubject1[0].trim();
+    for (let i = 0; i < listScores.length; i++) {
+        if (idStudent === listScores[i].idStudent && idSubject1 === listScores[i].idSubject) {
+            listError[10] = 10;
+            break;
+        }
     }
 
     return listError;
