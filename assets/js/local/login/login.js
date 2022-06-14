@@ -7,7 +7,7 @@ $(document).ready(function() {
         if (acc === "admin" && pass === "admin") {
             window.location.replace("../admin/dashboard.html");
         } else {
-            $("#mes").text("Tên đăng nhập không hợp lệ!");
+            $("#mes").text("Tên tài khoản không hợp lệ!");
         }
     });
 });
