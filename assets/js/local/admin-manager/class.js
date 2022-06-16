@@ -261,6 +261,7 @@ function deleteObj(index) {
     $(".get-id-del").html(idObj);
 }
 
+
 //Xóa
 function deleteClass() {
     let listClass = localStorage.getItem("listClass") ?
