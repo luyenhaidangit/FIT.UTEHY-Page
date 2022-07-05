@@ -88,4 +88,5 @@ $(document).ready(function() {
     topBarSearch();
 
     navBarReponsive();
+
 });
